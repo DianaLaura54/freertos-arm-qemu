@@ -1,4 +1,5 @@
 A real-time operating system (RTOS) project demonstrating multi-tasking, inter-process communication, and synchronization on ARM Cortex-M3 architecture using FreeRTOS and QEMU emulation.
+It also uses Cmake.
 
 This project implements a FreeRTOS-based embedded system with multiple concurrent tasks that communicate through queues and synchronize access to shared resources using mutexes. The application runs on an emulated ARM Cortex-M3 processor using QEMU.
 
