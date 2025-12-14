@@ -5,37 +5,37 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#define UART0_BASE 0x40013800
-#define UART_DR    (*((volatile uint32_t *)(UART0_BASE + 0x00)))
-#define UART_FR    (*((volatile uint32_t *)(UART0_BASE + 0x18)))
+#define UART0_BASE 0x40013800 //BASE ADDRESS
+#define UART_DR    (*((volatile uint32_t *)(UART0_BASE + 0x00))) //DATA REGISTER
+#define UART_FR    (*((volatile uint32_t *)(UART0_BASE + 0x18))) //FLAG REGISTER
 
 
 void uart_putc(char c) {
-    while (UART_FR & (1 << 5)); 
+    while (UART_FR & (1 << 5));  //can accept more data or not, bit 5 of the FLAG register
     UART_DR = c;
 }
 
 void uart_puts(const char *str) {
-    while (*str) {
+    while (*str) { //WRITE CHARACTERS TO THE FLAG REGISTER 
         if (*str == '\n') uart_putc('\r');
         uart_putc(*str++);
     }
 }
 
 
-TaskHandle_t xTaskLED1Handle = NULL;
+TaskHandle_t xTaskLED1Handle = NULL; //3 TASKS, LED1, LED2, MONITOR
 TaskHandle_t xTaskLED2Handle = NULL;
 TaskHandle_t xTaskMonitorHandle = NULL;
 
-QueueHandle_t xMessageQueue;
+QueueHandle_t xMessageQueue; //THE QUEUE
 
 
-SemaphoreHandle_t xMutex;
+SemaphoreHandle_t xMutex; //THE MUTEX
 
 
 typedef struct {
     uint32_t taskID;
-    uint32_t value;
+    uint32_t value;  //STRUCTURE FOR A MESSAGE(TASK,VALUE)
 } Message_t;
 
 
